@@ -4,6 +4,8 @@ const bcrypt = require('bcrypt');
 const nodemailer = require("nodemailer");
 const path = require("path");
 const hbs = require("nodemailer-express-handlebars");
+const {validateToken} = require('../middlewear/authentication');
+
 
 router.post('/', async(req, res) => {
     var email = req.body.email;
@@ -37,7 +39,7 @@ router.post('/', async(req, res) => {
 
 
 
-router.get('/', async(req, res) => {
+router.post('/all/',validateToken, async(req, res) => {
     const users = await User.find();
     res.send(users);
 })
@@ -51,7 +53,7 @@ router.get('/:id', async(req, res) => {
 
 
 
-router.put('/:id', async(req, res) => {
+router.put('/:id',validateToken, async(req, res) => {
 
     const id = req.params.id;
 

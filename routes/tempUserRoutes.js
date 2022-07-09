@@ -1,13 +1,14 @@
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
-const tempUser = require('../models/tempUser');
 const {User } = require('../models/user');
 const nodemailer = require("nodemailer");
 const path = require("path");
 const hbs = require("nodemailer-express-handlebars");
+const {validateToken} = require('../middlewear/authentication');
 
 
-router.post('/', async(req, res) => {
+
+router.post('/',validateToken, async(req, res) => {
   
     var randPassword = Array(10).fill("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz").map(function(x) { return x[Math.floor(Math.random() * x.length)] }).join('');
  
