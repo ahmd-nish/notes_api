@@ -9,7 +9,6 @@ router.post('/', async(req, res) => {
     var email = req.body.email;
     var name = req.body.name;
     var randPassword = Array(10).fill("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz").map(function(x) { return x[Math.floor(Math.random() * x.length)] }).join('');
-    console.log(randPassword);
     try {
         
         const user = await User.findOne({ email: req.body.email });
@@ -108,9 +107,7 @@ router.delete('/:id', async(req, res) => {
 
 function sendMail (email, name, password) {
     
-    console.log( email);
-    console.log( password);
-    console.log( name);
+    
     // async..await is not allowed in global scope, must use a wrapper
         async function main() {
             // Generate test SMTP service account from ethereal.email
@@ -152,6 +149,7 @@ function sendMail (email, name, password) {
               context:{
                   mail: email, // replace {{name}} with Adebola
                   password: password ,// replace {{company}} with My Company
+                name: name // replace {{email}} with my email address
               }
             });
         

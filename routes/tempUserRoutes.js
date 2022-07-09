@@ -8,10 +8,9 @@ const hbs = require("nodemailer-express-handlebars");
 
 
 router.post('/', async(req, res) => {
-    var email = req.body.email;
-    var name = req.body.name;
+  
     var randPassword = Array(10).fill("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz").map(function(x) { return x[Math.floor(Math.random() * x.length)] }).join('');
-    console.log(randPassword);
+ 
     try {
 
         
@@ -45,9 +44,7 @@ router.post('/', async(req, res) => {
 
 function sendMail (email, name, password) {
     
-    console.log( email);
-    console.log( password);
-    console.log( name);
+
     // async..await is not allowed in global scope, must use a wrapper
         async function main() {
             // Generate test SMTP service account from ethereal.email
@@ -87,9 +84,9 @@ function sendMail (email, name, password) {
               subject: "Notes management system", // Subject line
               template: 'email', // the name of the template file i.e email.handlebars
               context:{
-                  mail: email, // replace {{name}} with Adebola
-                  password: password ,// replace {{company}} with My Company
-                  name: name,
+                  mail: email, // to replace the mail address used to be logged in
+                  password: password ,// The one time password to be used to login for the first time
+                  name: name, // The name of the user
               }
             });
         
