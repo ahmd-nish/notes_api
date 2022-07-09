@@ -68,6 +68,29 @@ router.put('/:id', async(req, res) => {
 })
 
 
+router.put('/pass/:id', async(req, res) => {
+
+    const id = req.params.id;
+    console.log(req.body.password);
+    console.log(id)
+    // const password = req.body.password;
+
+    const user = await User.findById(id);
+
+    if (!user){
+        return res.status(404).send('User not found.');
+    }
+
+    const salt = await bcrypt.genSalt(Number(process.env.SALT));
+        
+    const password = await bcrypt.hash(req.body.password, salt);
+
+    const updatedUser = await User.findByIdAndUpdate(id, password, {new: true});
+    console.log(password);
+
+    res.send(updatedUser);
+})
+
 router.delete('/:id', async(req, res) => {
 
     const id = req.params.id;

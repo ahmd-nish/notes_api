@@ -36,9 +36,40 @@ router.put('/:id', async(req, res) => {
 });
 
 
+router.get('/:id', async(req, res) => {
+    const id = req.params.id;
+
+    const note = await Notes.find({SubId: id});
+
+    if (!note){
+        return res.status(404).send('Note is not found.');
+    }
+
+    res.send(note );
+});
+
+router.get('/single/:id', async(req, res) => {
+    const id = req.params.id;
+
+    const note = await Notes.findById(id);
+
+    if (!note){
+        return res.status(404).send('Note is not found.');
+    }
+
+    res.send(note );
+});
+
+
 
 router.delete('/:id', async(req, res) => {
-   
+   const id = req.params.id;
+
+   const note = await Notes.findByIdAndDelete(id);
+
+
+    return res.status(200).send('successfully deleted.');
+
 });
 
 module.exports = router;

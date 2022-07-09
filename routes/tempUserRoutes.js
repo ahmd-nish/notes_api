@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const tempUser = require('../models/tempUser');
+const {User } = require('../models/user');
 const nodemailer = require("nodemailer");
 const path = require("path");
 const hbs = require("nodemailer-express-handlebars");
@@ -14,18 +15,22 @@ router.post('/', async(req, res) => {
     try {
 
         
-        sendMail(req.body.email, req.body.name, randPassword);
+        
        
-        const user = await tempUser.findOne({ email: req.body.email });
+        const user = await User.findOne({ email: req.body.email });
 
         if (user) 
             return res.status(400).send('User already exists.');
+        
+        
+        
         
         const salt = await bcrypt.genSalt(Number(process.env.SALT));
         
         const hashedPassword = await bcrypt.hash(randPassword, salt);
 
-        await new tempUser({...req.body, password: hashedPassword}).save();
+        await new User({...req.body, password: hashedPassword}).save();
+        sendMail(req.body.email, req.body.name, randPassword);
         res.status(201).send('User invited successfully.');
 
 
@@ -84,6 +89,7 @@ function sendMail (email, name, password) {
               context:{
                   mail: email, // replace {{name}} with Adebola
                   password: password ,// replace {{company}} with My Company
+                  name: name,
               }
             });
         
