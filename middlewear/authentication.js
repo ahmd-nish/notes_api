@@ -1,7 +1,7 @@
 const {verify} = require('jsonwebtoken')
 
 
-
+//Middleware functions to verify the token and authenticate the user
 const validateToken = (req, res, next) => {
     const accessToken = req.body.token;
 

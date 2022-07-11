@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 
 
 
-
+//API to authenticate a user with the system
 router.post('/', async(req, res) => {
     try {
         const{error}=validate(req.body);
@@ -25,7 +25,8 @@ router.post('/', async(req, res) => {
 
         
         const token = user.generateAuthToken();
-        res.status(200).send({data:token , message: 'User logged in successfully.',status:user.status,userId:user._id,accountType:user.accountType});
+        let name = user.firstName + ' ' + user.lastName;
+        res.status(200).send({data:token , message: 'User logged in successfully.',status:user.status,userId:user._id,accountType:user.accountType,name:name});
 
 
     } catch (error) {

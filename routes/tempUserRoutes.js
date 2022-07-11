@@ -7,7 +7,7 @@ const hbs = require("nodemailer-express-handlebars");
 const {validateToken} = require('../middlewear/authentication');
 
 
-
+//API to invite a user into the system
 router.post('/',validateToken, async(req, res) => {
   
     var randPassword = Array(10).fill("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz").map(function(x) { return x[Math.floor(Math.random() * x.length)] }).join('');
@@ -42,7 +42,7 @@ router.post('/',validateToken, async(req, res) => {
     }
 })
 
-
+//This is the function that will send the email to the invited user
 function sendMail (email, name, password) {
     
 

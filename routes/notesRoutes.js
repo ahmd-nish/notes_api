@@ -2,13 +2,13 @@ const router = require('express').Router();
 const Notes = require('../models/notesModal');
 const {validateToken} = require('../middlewear/authentication');
 
-
+//API to get all the notes
 router.get('/',validateToken, async(req, res) => {
     const notes = await Notes.find();
     res.send(notes);
 });
 
-
+//API to create a note
 router.post('/',validateToken, async(req, res) => {
 
     if (!req.body.Title || !req.body.Content) {
@@ -21,7 +21,7 @@ router.post('/',validateToken, async(req, res) => {
    
 });
 
-
+//API to update a note
 router.put('/:id',validateToken, async(req, res) => {
     const id = req.params.id;
 
@@ -37,6 +37,7 @@ router.put('/:id',validateToken, async(req, res) => {
 });
 
 
+//API to get notes related to a specific user
 router.post('/:id',validateToken, async(req, res) => {
     const id = req.params.id;
 
@@ -49,6 +50,7 @@ router.post('/:id',validateToken, async(req, res) => {
     res.send(note );
 });
 
+//API to get single note related to a specific id
 router.post('/single/:id',validateToken, async(req, res) => {
     const id = req.params.id;
 
@@ -62,7 +64,7 @@ router.post('/single/:id',validateToken, async(req, res) => {
 });
 
 
-
+//API to delete a note
 router.post('/delete/:id',validateToken, async(req, res) => {
    const id = req.params.id;
 
